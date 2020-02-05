@@ -1,0 +1,12 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+    <p>{{ form.errors }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p>If you 've already got an account try to <a href="{% url 'login' %}"><strong>login</strong></a> instead</p>
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}

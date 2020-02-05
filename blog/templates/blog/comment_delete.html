@@ -1,0 +1,15 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+
+    <p>Are you sure you want to delete your comment:
+        <h6>{{ object.to_blog }}</h6>
+        {{ object.description }}
+    </p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes, Delete">
+    </form>
+
+{% endblock %}

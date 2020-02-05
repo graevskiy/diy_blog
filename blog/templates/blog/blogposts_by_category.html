@@ -1,0 +1,21 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+  {% if blogpost_list %}
+    <h1>{% with blogpost_list|first as a_blog %}{{ a_blog.category.name|capfirst }}{% endwith %} Blogs</h1>
+    {% for blogpost in blogpost_list %}
+      {% ifchanged blogpost.pub_date %}
+      {% if not forloop.first %}
+        </ul>
+      {% endif %}
+        <h5>{{ blogpost.pub_date }}</h3>
+        <ul>
+      {% endifchanged %}
+      <li>
+        <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.name }}</a>{% if blogpost.author %} - <a href="#">{{blogpost.author}}</a>{% endif %}
+      </li>
+    {% endfor %}
+  {% else %}
+    <p>There are no blogs to read yet. Sadly :(</p>
+  {% endif %}       
+{% endblock %}

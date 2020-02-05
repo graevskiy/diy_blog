@@ -1,0 +1,16 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+   <h1>Categories</h1>
+  {% if blogcategory_list %}
+    <ul>
+    {% for blogcat in blogcategory_list %}
+      <li>
+        <a href="{{ blogcat.get_absolute_url }}">{{ blogcat.name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no categories to show. Please go <a href="{% url 'blog:blogs' %}">here</a> to see all blogs uncategorized</p>
+  {% endif %} 
+{% endblock %}

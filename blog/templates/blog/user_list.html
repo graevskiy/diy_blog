@@ -1,0 +1,16 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+  <h1>Authors</h1>
+  {% if user_list %}
+    <ul>
+    {% for author in user_list %}
+      <li>
+        <a href="{{ author.get_absolute_url }}">{{ author.get_username }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No one was so brave to write a blog post.</p>
+  {% endif %}       
+{% endblock %}

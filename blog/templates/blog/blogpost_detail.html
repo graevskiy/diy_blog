@@ -1,0 +1,40 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+    <h1>{{ blogpost.name }}</h1>
+    <p><strong>Posted:</strong> {{ blogpost.pub_date }}</p> 
+    <p><strong>Category:</strong> <a href="{% url 'blog:blogs_of_category' blogpost.category.id %}">{{ blogpost.category }}</a></p>
+    {% if blogpost.author %}<p><strong>By:</strong> {{ blogpost.author }}</p>{% endif %}
+    <div>
+      <p>Description: </p>
+      <p>{{ blogpost.body|linebreaks }}</p>
+    </div>
+    <hr>
+    <div style="margin-left:10px">
+      {% if comments_set %}
+        <div>
+          <p>
+            <h5>Comments</h5>
+          </p>
+        </div>
+        {% for comment in comments_set %}
+          <hr>
+          <p><span>{{ comment.author }}</span> -- <span>{{ comment.pub_date }}</span></p>
+          <p id="{{ comment.id }}">{{ comment.description }}</p>{% ifequal comment.author request.user %}<a href="{% url 'blog:edit-comment' comment.id %}">EDIT</a> -- <a href="{% url 'blog:delete-comment' comment.id %}">DELETE</a>{% endifequal %}
+        {% endfor %}
+      {% else %}
+        <h5>No comments yet</h5>
+      {% endif %}
+      <!-- Comment add form -->
+      {% if user.is_authenticated %}
+        <form id="create_comment_form" action="" method="POST">
+          <h6>Add Comment</h6>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Comment">
+        </form>
+      {% else %}
+        <p>To comment this post please <a href="{% url 'login' %}?next={{request.path}}">Login</a> or <a href="{% url 'register' %}?next={{request.path}}">Register</a></p>
+      {% endif %}
+    </div>
+{% endblock %}
